@@ -48,9 +48,16 @@ app.get('/', (req, res) => {
 // displaying products
 app.get('/allproducts', async (req, res) => {
     const category = req.query.category;
-    const filter = { classification: category }
-    const result = await productsCollection.find(filter).toArray();
-    res.send(result);
+    if (category) {
+        const filter = { classification: category }
+        const result = await productsCollection.find(filter).toArray();
+        res.send(result);
+    } else {
+        const result = await productsCollection.find().toArray();
+        res.send(result);
+
+    }
+
 })
 
 
