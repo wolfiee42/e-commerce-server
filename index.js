@@ -74,6 +74,14 @@ app.post('/users', async (req, res) => {
 
 })
 
+// conditionally getting user email to verify whether he is admin or not
+app.get("/users", async (req, res) => {
+    const email = req.query.email;
+    const filter = { email: email }
+    const result = await userCollection.findOne(filter);
+    res.send(result);
+})
+
 
 
 
