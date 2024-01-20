@@ -39,7 +39,7 @@ dbConnet();
 
 const database = client.db("eCommerce")
 const productsCollection = database.collection("Products");
-
+const userCollection = database.collection("Users")
 
 app.get('/', (req, res) => {
     res.send("Server is Running")
@@ -60,7 +60,19 @@ app.get('/allproducts', async (req, res) => {
 
 })
 
+// user information storing in database
+app.post('/users', async (req, res) => {
+    const user = req.body;
+    const filter = { email: user.email };
+    const existingUser = await userCollection.findOne(filter);
+    if (existingUser) {
+        return res.send("User Exists");
+    }
+    const result = await userCollection.insertOne(user);
+    res.send(result);
 
+
+})
 
 
 
