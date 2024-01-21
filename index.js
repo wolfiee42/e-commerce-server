@@ -40,6 +40,9 @@ dbConnet();
 const database = client.db("eCommerce")
 const productsCollection = database.collection("Products");
 const userCollection = database.collection("Users")
+const wishListCollection = database.collection("Wishlist")
+
+
 
 app.get('/', (req, res) => {
     res.send("Server is Running")
@@ -83,6 +86,20 @@ app.get("/users", async (req, res) => {
 })
 
 
+// adding wishlist to database
+app.post('/wishlists', async (req, res) => {
+    const item = req.body;
+    const result = await wishListCollection.insertOne(item);
+    res.send(result)
+})
+
+
+app.get("/wishlists", async (req, res) => {
+    const email = req.query.email;
+    const filter = { email: email }
+    const result = await wishListCollection.find(filter).toArray();
+    res.send(result)
+})
 
 
 app.listen(port, () => {
