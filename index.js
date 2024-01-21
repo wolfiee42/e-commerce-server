@@ -136,7 +136,15 @@ app.get('/cart', async (req, res) => {
     res.send(result);
 })
 
-
+// delete products from cart 
+app.delete('/cart', async (req, res) => {
+    const email = req.query.email;
+    const id = req.query.id;
+    const filter1 = { email: email };
+    const filter2 = { _id: new ObjectId(id) };
+    const result = await cartCollection.deleteOne(filter1, filter2);
+    res.send(result);
+})
 
 app.listen(port, () => {
     console.log(`server is running in port ${port}`);
