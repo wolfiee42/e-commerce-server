@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config()
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -60,7 +60,13 @@ app.get('/allproducts', async (req, res) => {
         res.send(result);
 
     }
+})
 
+
+// product count
+app.get('/totalproductcount', async (req, res) => {
+    const result = await productsCollection.estimatedDocumentCount();
+    res.send({ result })
 })
 
 // user information storing in database
@@ -92,6 +98,17 @@ app.post('/wishlists', async (req, res) => {
     const result = await wishListCollection.insertOne(item);
     res.send(result)
 })
+
+// delete item from wishlist
+app.delete('/wishlist', async (req, res) => {
+    const email = req.query.email;
+    const id = req.query.id;
+    const filter1 = { email: email };
+    const filter2 = { _id: new ObjectId(id) };
+    const result = await wishListCollection.deleteOne(filter1, filter2);
+    res.send(result);
+})
+
 
 
 app.get("/wishlists", async (req, res) => {
