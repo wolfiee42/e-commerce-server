@@ -41,7 +41,7 @@ const database = client.db("eCommerce")
 const productsCollection = database.collection("Products");
 const userCollection = database.collection("Users")
 const wishListCollection = database.collection("Wishlist")
-
+const cartCollection = database.collection("Cart");
 
 
 app.get('/', (req, res) => {
@@ -117,6 +117,25 @@ app.get("/wishlists", async (req, res) => {
     const result = await wishListCollection.find(filter).toArray();
     res.send(result)
 })
+
+
+
+// adding product to cart section
+app.post('/cart', async (req, res) => {
+    const item = req.body;
+    const result = await cartCollection.insertOne(item);
+    res.send(result);
+});
+
+
+// displaying cart products on condition.
+app.get('/cart', async (req, res) => {
+    const email = req.query.email;
+    const filter = { email: email };
+    const result = await cartCollection.find(filter).toArray();
+    res.send(result);
+})
+
 
 
 app.listen(port, () => {
