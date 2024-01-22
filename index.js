@@ -87,8 +87,12 @@ app.post('/users', async (req, res) => {
 app.get("/users", async (req, res) => {
     const email = req.query.email;
     const filter = { email: email }
-    const result = await userCollection.findOne(filter);
-    res.send(result);
+    const user = await userCollection.findOne(filter);
+    let admin = false;
+    if (user) {
+        admin = user?.role === "Admin"
+    }
+    res.send({ admin });
 })
 
 
