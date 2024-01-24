@@ -49,6 +49,14 @@ app.get('/', (req, res) => {
     res.send("Server is Running")
 })
 
+
+// storing product in database
+app.post('/addingproduct', async (req, res) => {
+    const productInformation = req.body;
+    const result = await productsCollection.insertOne(productInformation);
+    res.send(result);
+})
+
 // displaying products
 app.get('/allproducts', async (req, res) => {
     const category = req.query.category;
