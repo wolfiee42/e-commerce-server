@@ -42,6 +42,7 @@ const productsCollection = database.collection("Products");
 const userCollection = database.collection("Users")
 const wishListCollection = database.collection("Wishlist")
 const cartCollection = database.collection("Cart");
+const reviewCollection = database.collection("Review");
 
 
 app.get('/', (req, res) => {
@@ -149,6 +150,18 @@ app.delete('/cart', async (req, res) => {
     const result = await cartCollection.deleteOne(filter1, filter2);
     res.send(result);
 })
+
+
+
+// getting review from client
+app.post('/reviews', async (req, res) => {
+    const review = req.body;
+    const result = await reviewCollection.insertOne(review);
+    res.send(result);
+})
+
+
+
 
 app.listen(port, () => {
     console.log(`server is running in port ${port}`);
