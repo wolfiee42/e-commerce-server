@@ -57,6 +57,22 @@ app.post('/addingproduct', async (req, res) => {
     res.send(result);
 })
 
+// displaying single product based on id
+app.get('/product', async (req, res) => {
+    const id = req.query.id;
+    const filter = { _id: new ObjectId(id) };
+    const result = await productsCollection.findOne(filter);
+    res.send(result);
+})
+
+// deleting item
+app.delete('/deleteitem', async (req, res) => {
+    const id = req.query.id;
+    const filter = { _id: new ObjectId(id) };
+    const result = await productsCollection.deleteOne(filter);
+    res.send(result);
+})
+
 
 
 //displaying all product
