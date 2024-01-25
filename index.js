@@ -57,7 +57,17 @@ app.post('/addingproduct', async (req, res) => {
     res.send(result);
 })
 
-// displaying products
+
+
+//displaying all product
+app.get('/manageproducts', async (req, res) => {
+    const result = await productsCollection.find().toArray();
+    res.send(result);
+})
+
+
+
+// displaying products with category
 app.get('/allproducts', async (req, res) => {
     const category = req.query.category;
     if (category) {
