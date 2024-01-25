@@ -73,6 +73,24 @@ app.delete('/deleteitem', async (req, res) => {
     res.send(result);
 })
 
+// upgrading product item if necessary
+app.patch('/updatingproduct', async (req, res) => {
+    const id = req.query.id;
+    const upgradedProduct = req.body;
+    const filter = { _id: new ObjectId(id) };
+    const updatingDocument = {
+        $set: {
+            name: upgradedProduct.name,
+            price: upgradedProduct.price,
+            image: upgradedProduct.image,
+            classification: upgradedProduct.classification,
+            desc: upgradedProduct.desc,
+        }
+    }
+    const result = await productsCollection.updateOne(filter, updatingDocument);
+    res.send(result);
+})
+
 
 
 //displaying all product
