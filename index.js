@@ -134,6 +134,26 @@ app.post('/users', async (req, res) => {
     res.send(result);
 
 
+});
+
+// getting all user
+app.get('/allusers', async (req, res) => {
+    const result = await userCollection.find().toArray();
+    res.send(result);
+})
+
+
+// individual user Information changing role from normal user to admin
+app.patch('/usersinformation', async (req, res) => {
+    const email = req.query.email;
+    const filter = { email: email };
+    const updateDoc = {
+        $set: {
+            role: 'Admin',
+        }
+    };
+    const result = await userCollection.updateOne(filter, updateDoc);
+    res.send(result);
 })
 
 // conditionally getting user email to verify whether he is admin or not
@@ -146,6 +166,15 @@ app.get("/users", async (req, res) => {
         admin = user?.role === "Admin"
     }
     res.send({ admin });
+})
+
+
+// deleting user from database
+app.delete('/deleteuser', async (req, res) => {
+    const email = req.query.email;
+    const filter = { email: email };
+    const result = await userCollection.deleteOne(filter);
+    res.send(result);
 })
 
 
