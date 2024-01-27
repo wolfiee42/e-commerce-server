@@ -136,6 +136,15 @@ app.post('/users', async (req, res) => {
 
 });
 
+// single user
+app.get('/singleuser', async (req, res) => {
+    const email = req.query.email;
+    const filter = { email: email };
+    const result = await userCollection.findOne(filter);
+    res.send(result);
+})
+
+
 // getting all user
 app.get('/allusers', async (req, res) => {
     const result = await userCollection.find().toArray();
