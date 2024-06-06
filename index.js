@@ -9,7 +9,7 @@ const port = process.env.PORT || 8000;
 // middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://velvetvoyage.netlify.app/"],
+    origin: ["http://localhost:5173", "https://velvetvoyage.netlify.app"],
     credentials: true,
   })
 );
